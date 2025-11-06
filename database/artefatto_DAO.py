@@ -8,6 +8,17 @@ from model.artefattoDTO import Artefatto
 
 class ArtefattoDAO:
     def __init__(self):
-        pass
+        self.cnx = ConnessioneDB.get_connection()
 
-    # TODO
+    # funzione che ricava i vari artefatti
+    def get_epoca(self):
+        cursor = self.cnx.cursor()
+        query = """SELECT * FROM artefatto"""
+        cursor.execute(query)
+        lista_epoche = []
+        for row in cursor:
+            epoca = Artefatto(row[3])
+            lista_epoche.append(epoca)
+        cursor.close()
+        self.cnx.close()
+        return lista_epoche

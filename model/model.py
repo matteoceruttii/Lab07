@@ -19,11 +19,14 @@ class Model:
         # TODO
 
     def get_epoche(self):
-        """Restituisce la lista di tutte le epoche."""
-        # TODO
+        lista_epoche = self._artefatto_dao.get_epoca()
+        return lista_epoche
 
     # --- MUSEI ---
     def get_musei(self):
-        """ Restituisce la lista di tutti i musei."""
-        # TODO
+        lista_nomi = self._museo_dao.get_museum()
+        lista_nomi_completa = []
+        for i in range(len(lista_nomi)):
+            lista_nomi_completa.append(lista_nomi[i][1])
+        return lista_nomi_completa
 

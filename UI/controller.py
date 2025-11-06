@@ -18,7 +18,13 @@ class Controller:
         self.epoca_selezionata = None
 
     # POPOLA DROPDOWN
-    # TODO
+    def popola_dropdown_musei(self):
+        for elemento in self._model.get_musei():
+            self._view.selezione_musei.options.append(ft.dropdown.Option(elemento))
+
+    def popola_dropdown_epoche(self):
+        for elemento in self._model.get_epoche():
+            self._view.epoca.options.append(ft.dropdown.Option(elemento))
 
     # CALLBACKS DROPDOWN
     # TODO

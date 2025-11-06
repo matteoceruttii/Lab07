@@ -8,6 +8,14 @@ from model.museoDTO import Museo
 
 class MuseoDAO:
     def __init__(self):
-        pass
+        self.cnx = ConnessioneDB.get_connection()
 
-    # TODO
+    # funzione che ricava tutti i musei presenti dal database
+    def get_museum(self):
+        cursor = self.cnx.cursor()
+        query = """SELECT * FROM museo"""
+        cursor.execute(query)
+        lista_musei = cursor.fetchall()
+        cursor.close()
+        self.cnx.close()
+        return lista_musei
