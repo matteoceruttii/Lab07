@@ -19,3 +19,15 @@ class MuseoDAO:
         cursor.close()
         self.cnx.close()
         return lista_musei
+
+    # funzione che restituisce i musei scelti dall'utente
+    def get_museo_utente(self, m):
+        cursor = self.cnx.cursor()
+        query = """SELECT nome 
+                    FROM museo
+                    WHERE nome = COALESCE(%s, nome)"""
+        cursor.execute(query, (m,))  # , serve per evitare errore con un solo parametro
+        self.cnx.close()
+        lista_museo_utente = cursor.fetchall()
+        cursor.close()
+        return lista_museo_utente

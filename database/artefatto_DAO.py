@@ -15,10 +15,19 @@ class ArtefattoDAO:
         cursor = self.cnx.cursor()
         query = """SELECT * FROM artefatto"""
         cursor.execute(query)
-        lista_epoche = []
-        for row in cursor:
-            epoca = Artefatto(row[3])
-            lista_epoche.append(epoca)
+        lista_epoche = cursor.fetchall()
         cursor.close()
         self.cnx.close()
         return lista_epoche
+
+    # funzione che restituisce gli artefatti scelti dall'utente
+    def get_artefatto_utente(self, e):
+        cursor = self.cnx.cursor()
+        query = """SELECT nome 
+                    FROM artefatto
+                    WHERE epoca = COALESCE(%s, epoca)"""
+        cursor.execute(query, (e,))  # , serve per evitare errore con un solo parametro
+        self.cnx.close()
+        lista_artefatto_utente = cursor.fetchall()
+        cursor.close()
+        return lista_artefatto_utente

@@ -26,8 +26,31 @@ class Controller:
         for elemento in self._model.get_epoche():
             self._view.epoca.options.append(ft.dropdown.Option(elemento))
 
+
     # CALLBACKS DROPDOWN
-    # TODO
+    # funzione che prende il valore selezionato nel dropdown
+    def on_museo_change(self, e):
+        valore = e.control.value
+        self.museo_selezionato = None if valore == "Nessun filtro" else valore
+
+    def on_epoca_change(self, e):
+        valore = e.control.value
+        self.epoca_selezionata = None if valore == "Nessun filtro" else valore
+
 
     # AZIONE: MOSTRA ARTEFATTI
-    # TODO
+    def mostra_artefatti(self):
+        (lista1, lista2) = self._model.get_artefatti_filtrati(self._view.selezione_musei.value, self._view.epoca.value)
+        if len(lista1) == 1:
+            # il museo è stato selezionato (uno solo)
+            for artefatto in lista2:
+                print(artefatto)
+        elif lista1 is None and len(lista2) == 1:
+            # nessuna selezione nel museo, ma epoca selezionata
+            for museo in lista1:
+                print(museo)
+        else:
+            for museo in lista1:
+                print(museo)
+            for artefatto in lista2:
+                print(artefatto)

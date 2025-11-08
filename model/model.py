@@ -16,11 +16,22 @@ class Model:
     # --- ARTEFATTI ---
     def get_artefatti_filtrati(self, museo:str, epoca:str):
         """Restituisce la lista di tutti gli artefatti filtrati per museo e/o epoca (filtri opzionali)."""
-        # TODO
+        lista_musei = self._museo_dao.get_museo_utente(museo)
+        lista_artefatti = self._artefatto_dao.get_artefatto_utente(epoca)
+        return lista_musei, lista_artefatti
 
+    # --- EPOCHE ---
     def get_epoche(self):
         lista_epoche = self._artefatto_dao.get_epoca()
-        return lista_epoche
+        # preferenza personale di usare comandi Python per gestire quanto ricavato dal database piuttosto che usare query
+        # creo un insieme per inserire le varie epoche senza ripetizioni
+        epoche = set()
+        for i in range(len(lista_epoche)):
+            epoche.add(lista_epoche[i][3])
+        # ordino le epoche per una questione di comodità e di estetica
+        epoche = list(epoche)
+        epoche.sort()
+        return epoche
 
     # --- MUSEI ---
     def get_musei(self):

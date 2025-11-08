@@ -42,25 +42,29 @@ class View:
         # --- Sezione 2: Filtraggio ---
 # dropdown per selezionare il museo da vedere
         self.selezione_musei = ft.Dropdown(label = "Museo",
-                                          width = 400,
-                                          hint_text = "Seleziona il nome del museo",
-                                          on_change = self.controller.popola_dropdown_musei()
-                                          )
+                                           options = [ft.dropdown.Option("Nessun filtro")],
+                                           width = 400,
+                                           hint_text = "Seleziona il nome del museo",
+                                           on_change = self.controller.on_museo_change
+                                           )
+        self.controller.popola_dropdown_musei()
 
 # dropdown per selezionare l'epoca dell'artefatto
         self.epoca = ft.Dropdown(label = "Epoca",
+                                 options=[ft.dropdown.Option("Nessun filtro")],
                                  width = 200,
                                  hint_text = "Seleziona l'epoca dell'artefatto",
-                                 on_change=self.controller.popola_dropdown_epoche()
+                                 on_change = self.controller.on_epoca_change
                                  )
+        self.controller.popola_dropdown_epoche()
 
         # --- Sezione 3: Artefatti ---
 # bottone per confermare il filtraggio degli artefatti
         self.mostra_artefatti = ft.ElevatedButton(text = "Mostra Artefatti")
 
 # listview per mostrare i risultati richiesti (in caso di mancanza viene sollecitato l'alert)
-        self.list_view = ft.ListView()
-
+        self.artefatti = ft.ListView(expand=True, spacing=5, padding=10, auto_scroll=True)
+        self.artefatti.controls.append(self.controller.mostra_artefatti())
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -76,11 +80,13 @@ class View:
 
             # Sezione 2: Filtraggio
             ft.Row([self.selezione_musei, self.epoca],
+                   spacing = 25,
                    alignment = ft.MainAxisAlignment.CENTER),
             ft.Divider(),
 
             # Sezione 3: Artefatti
-            self.mostra_artefatti
+            self.mostra_artefatti,
+            self.artefatti
         )
 
         self.page.scroll = "adaptive"
